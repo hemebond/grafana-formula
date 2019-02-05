@@ -1,0 +1,16 @@
+{%- for property, value in settings.items() %}
+{%-   if value is not mapping and value is not none %}
+{{ property }} = {{ value }}
+{%-   endif %}
+{%- endfor %}
+
+{%- for section, content in settings.items() %}
+{%-   if content is mapping or content is none %}
+[{{ section }}]
+{%-     if content %}
+{%-       for property, value in content.items() %}
+{{ property }} = {{ value }}
+{%-       endfor %}
+{%-     endif %}
+{%-   endif %}
+{%- endfor %}

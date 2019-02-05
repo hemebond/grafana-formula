@@ -1,0 +1,18 @@
+{## Start with defaults from defaults.yaml ##}
+{% import_yaml 'grafana/defaults.yaml' as default_settings %}
+
+{##
+Setup variables using grains['os_family'] based logic, only add key:values
+that differ from what is in defaults.yaml
+##}
+{% set grafana = salt['grains.filter_by']({
+        'Debian': {},
+        'Suse': {},
+        'Arch': {},
+        'RedHat': {},
+        'defaults': default_settings,
+  }
+  , grain='os_family'
+  , base='defaults'
+  , merge=salt['pillar.get']('grafana:lookup'))
+%}
